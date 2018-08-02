@@ -47,3 +47,17 @@ exports.index = (req,res)=>{
             next(err);
         })
 };
+exports.new = (req,res)=>{
+   let quiz =  models.Quiz.build({
+        pregunta:'pregunta',respuesta:"respuesta"
+    });
+    res.render('quizes/new',{quiz:quiz});
+};
+exports.create = (req,res)=>{
+    let quiz = models.Quiz.build(req.body.quiz);
+    quiz.save({fields:['pregunta','respuesta']}).then(
+        ()=>{
+            res.redirect('/quizes');
+        }
+    )
+};

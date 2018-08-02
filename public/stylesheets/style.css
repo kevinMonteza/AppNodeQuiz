@@ -7,7 +7,7 @@ body {
 }
 
 #page-wrap {
-  margin: 2% auto; color: write;
+  margin: 2% auto; color: white;
 }
 #page-wrap >.main {
   border: 1px solid #999;
@@ -24,4 +24,9 @@ header, nav, section, footer{
 }
 nav span{
   margin: 0px 10px 0px 0px;
+}
+table{
+  width: auto;
+  text-align: left;
+  margin-left: 10%;
 }
