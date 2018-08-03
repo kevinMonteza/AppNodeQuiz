@@ -5,7 +5,7 @@ var quiz_controller = require('../controller/Controller');
 
 /* GET home page. */
 router.get('/',(req, res, next)=> {
-  res.render('index', { title: 'Quiz' });
+  res.render('index', { title: 'Quiz',errors:[] });
 });
 router.param('quizId',quiz_controller.load);// autoload quizId
 router.get('/quizes',quiz_controller.index);

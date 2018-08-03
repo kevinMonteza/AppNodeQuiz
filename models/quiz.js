@@ -5,7 +5,12 @@
 
 module.exports =(sequelize,dataTypes)=>{
     return sequelize.define('Quiz',{
-        pregunta : dataTypes.STRING,
-        respuesta : dataTypes.STRING,
+        pregunta :{
+            type:dataTypes.STRING,
+            validate:{notEmpty:{msg:"->falta pregunta"}}},
+        respuesta : {
+            type:dataTypes.STRING,
+            validate:{notEmpty:{msg:'->falta respuesta'}}
+        }
     });
 };

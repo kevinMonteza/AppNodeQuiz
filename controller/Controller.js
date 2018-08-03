@@ -21,7 +21,7 @@ exports.load =(req, res, next, quizId)=>{
     })
 };
 exports.show = (req,res)=>{
-    res.render('quizes/show',{quiz:req.quiz});
+    res.render('quizes/show',{quiz:req.quiz,errors:[]});
 };
 //quizes/:quizId(\\d)/answer
 exports.answer = (req,res)=>{
@@ -30,19 +30,12 @@ exports.answer = (req,res)=>{
     if(req.query.respuesta.toUpperCase()===req.quiz.respuesta.toUpperCase()){
         resultado="Correcta !!!";
     }
-    res.render('quizes/answer',{quiz:req.quiz, respuesta:resultado});
-
-
-    /*if(req.query.respuesta.toUpperCase() === "ROMA"){
-            res.render('quizes/answer',{respuesta:"correcta"});
-        }else{
-            res.render('quizes/answer',{respuesta:'Incorrecta'});
-        }*/
+    res.render('quizes/answer',{quiz:req.quiz, respuesta:resultado,errors:[]});
 };
 //quizes/
 exports.index = (req,res)=>{
     models.Quiz.findAll().then(quizes=>{
-        res.render('quizes/index.ejs',{quizes:quizes});
+        res.render('quizes/index.ejs',{quizes:quizes,errors:[]});
     }).catch(err=>{
             next(err);
         })
@@ -51,13 +44,47 @@ exports.new = (req,res)=>{
    let quiz =  models.Quiz.build({
         pregunta:'pregunta',respuesta:"respuesta"
     });
-    res.render('quizes/new',{quiz:quiz});
+    res.render('quizes/new',{quiz:quiz,errors:[]});
 };
 exports.create = (req,res)=>{
     let quiz = models.Quiz.build(req.body.quiz);
-    quiz.save({fields:['pregunta','respuesta']}).then(
-        ()=>{
+    quiz.save({fields:['pregunta','respuesta']})
+        .then(()=>{
             res.redirect('/quizes');
-        }
-    )
+        })
+        .catch((err)=>{
+            res.render('quizes/new',{quiz:quiz,errors:err.errors});
+        })
 };
+
+
+
+
+
+
+
+
+
+
+
+
+/*if(req.query.respuesta.toUpperCase() === "ROMA"){
+            res.render('quizes/answer',{respuesta:"correcta"});
+        }else{
+            res.render('quizes/answer',{respuesta:'Incorrecta'});
+        }*/
+
+/* quiz.validate().then((err)=>{
+        console.log(err);
+            if(err){
+                res.render('quizes/new',{quiz:quiz,errors:err.errors});
+            }else{
+                console.log("en el else");
+                quiz.save({fields:['pregunta','respuesta']})
+                    .then(
+                    ()=>{
+                        res.redirect('/quizes');
+                    }
+                )
+            }
+        })*/
