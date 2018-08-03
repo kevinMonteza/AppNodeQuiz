@@ -11,7 +11,8 @@ var models =require('../models/models');
 //quizes/show
 
 exports.load =(req, res, next, quizId)=>{
-    models.Quiz.findById(quizId).then(quiz=>{
+    models.Quiz.findById(quizId)
+        .then(quiz=>{
         if(quiz){
             req.quiz=quiz;
             next();
@@ -55,6 +56,28 @@ exports.create = (req,res)=>{
         .catch((err)=>{
             res.render('quizes/new',{quiz:quiz,errors:err.errors});
         })
+};
+exports.edit = (req,res)=>{
+     let quiz=req.quiz; // variable quiz cargada en el autoload
+     res.render('quizes/edit',{quiz:quiz,errors:[]});
+};
+exports.update = (req,res)=>{
+   req.quiz.pregunta = req.body.quiz.pregunta;
+   req.quiz.respuesta = req.body.quiz.respuesta;
+
+   req.quiz
+       .save({fields:['pregunta','respuesta']})
+       .then(()=>{
+           res.redirect('/quizes')
+       })
+       .catch(err=>{
+           res.render('quizes/edit',{quiz:req.quiz,errors:err.errors});
+       })
+};
+exports.destroy = (req,res)=>{
+    req.quiz.destroy()
+        .then(()=>{res.redirect('/quizes')})
+        .catch((err)=>{next(err)})
 };
 
 

@@ -9,6 +9,8 @@ var indexRouter = require('./routes/index');
 var app = express();
 
 var partials = require('express-partials');
+var methodOverride = require('method-override');
+
 
 
 // view engine setup
@@ -23,6 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'));
 
 //ruta de acceso al router
 app.use('/', indexRouter);
