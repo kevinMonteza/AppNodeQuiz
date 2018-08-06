@@ -11,14 +11,18 @@ var models =require('../models/models');
 //quizes/show
 
 exports.load =(req, res, next, quizId)=>{
-    models.Quiz.findById(quizId)
+    models.Quiz.find({
+        where:{id:Number(quizId)},
+        include :[{model:models.Comment}]
+    })
         .then(quiz=>{
-        if(quiz){
-            req.quiz=quiz;
-            next();
-        }else{
-            next(new Error(`No existe quizId ${quiz}`));
-        }
+            if(quiz){
+                console.log(quiz.Comment);
+                req.quiz=quiz;
+                next();
+            }else{
+                next(new Error(`No existe quizId ${quiz}`));
+            }
     })
 };
 exports.show = (req,res)=>{

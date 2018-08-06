@@ -1,7 +1,10 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
-var quiz_controller = require('../controller/Controller');
+let quiz_controller = require('../controller/Controller');
+let comment_controller = require('../controller/CommentController');
+
+
 
 /* GET home page. */
 router.get('/',(req, res, next)=> {
@@ -16,5 +19,8 @@ router.post('/quizes/create',quiz_controller.create);
 router.get('/quizes/:quizId(\\d+)/edit',quiz_controller.edit);
 router.put('/quizes/:quizId(\\d+)',quiz_controller.update);
 router.delete('/quizes/:quizId(\\d+)',quiz_controller.destroy);
+
+router.get('/quizes/:quizId(\\d+)/comments/new',comment_controller.new);
+router.post('/quizes/:quizId(\\d+)/comments/',comment_controller.create);
 
 module.exports = router;
