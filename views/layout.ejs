@@ -12,6 +12,11 @@
 <body>
 <div id="page-wrap">
     <header class="main" id="h1">
+        <%if(!session.user){%>
+            <span class="right"><a href="/login">Login</a></span>
+        <%}else{%>
+            <span class="right"><%=session.user.username%><a href="/logout">Logout</a></span>
+        <%}%>
         <h2>El juego de las preguntas</h2>
     </header>
     <nav class="main" id="n1">
@@ -19,6 +24,12 @@
         <span><a href="/quizes">Preguntas</a></span>
     </nav>
     <section class="main" id="s1">
+        <div class="errorsMsg">
+            <%if(session.errors){%>
+            <%=console.log(session.errors);%>
+                <span><%=session.errors%></span>
+            <%}%>
+        </div>
         <%- body %>
     </section>
     <footer class="main" id="f1">

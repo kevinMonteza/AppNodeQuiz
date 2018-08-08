@@ -25,7 +25,7 @@ header, nav, section, footer{
 nav span{
   margin: 0px 10px 0px 0px;
 }
-#errorsMsg{
+.errorsMsg{
   color: red;
   font-size: smaller;
 
@@ -34,4 +34,7 @@ table{
   width: auto;
   text-align: left;
   margin-left: 10%;
+}
+.right{
+  float: right;
 }

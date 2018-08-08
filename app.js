@@ -1,15 +1,17 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-var indexRouter = require('./routes/index');
+let indexRouter = require('./routes/index');
 
-var app = express();
+let session = require('express-session');
 
-var partials = require('express-partials');
-var methodOverride = require('method-override');
+let app = express();
+
+let partials = require('express-partials');
+let methodOverride = require('method-override');
 
 
 
@@ -24,16 +26,33 @@ app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.urlencoded());
 app.use(cookieParser());
+app.use(session({secret:'testQuiz'}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(methodOverride('_method'));
 
+//Helpers dinamicos
+app.use((req,res,next)=>{
+
+    // para guardar el path en session.redir despues del login
+    if(!req.path.match(/\/login|\/logout/)){
+        req.session.redir=req.path;
+    }
+
+    //hacer visible req.session en las vistas
+    res.locals.session=req.session;
+    next();
+});
 //ruta de acceso al router
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  next(createError(404));
+    next(createError(404));
 });
+
+app.use(methodOverride('_method'));
+
+
+
 
 // error handler
 app.use(function(err, req, res, next) {
