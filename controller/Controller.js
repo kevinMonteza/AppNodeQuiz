@@ -17,7 +17,7 @@ exports.load =(req, res, next, quizId)=>{
     })
         .then(quiz=>{
             if(quiz){
-                console.log(quiz.Comment);
+                console.log(quiz.Comments);
                 req.quiz=quiz;
                 next();
             }else{
@@ -25,9 +25,11 @@ exports.load =(req, res, next, quizId)=>{
             }
     })
 };
+
 exports.show = (req,res)=>{
     res.render('quizes/show',{quiz:req.quiz,errors:[]});
 };
+
 //quizes/:quizId(\\d)/answer
 exports.answer = (req,res)=>{
     console.log(req.query.respuesta.toUpperCase());

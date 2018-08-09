@@ -11,8 +11,7 @@ exports.create= (req,res) =>{
   let user_controller = require('./userController');
   user_controller.autenticar(login,password,(err,user)=>{
       if(err){
-          req.session.errors=[{"Message":"Se ha producido un error"+err}];
-          console.log(req.session.errors);
+          req.session.errors=[{Message:"Se ha producido un error: "+err}];
           res.redirect('/login');
           return;
       }
@@ -27,7 +26,7 @@ exports.destroy = (req,res)=>{
   delete req.session.user;
   res.redirect(req.session.redir.toString()); // redirect a path anterior a login
 };
-exports.loginRequired = (req,res)=>{
+exports.loginRequired = (req,res,next)=>{
   if(req.session.user){
       next();
   }else{

@@ -26,6 +26,7 @@ app.use(express.json());
 //app.use(express.urlencoded({ extended: false }));
 app.use(express.urlencoded());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 app.use(session({secret:'testQuiz'}));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -49,7 +50,6 @@ app.use(function(req, res, next) {
     next(createError(404));
 });
 
-app.use(methodOverride('_method'));
 
 
 

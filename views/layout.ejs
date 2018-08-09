@@ -25,9 +25,8 @@
     </nav>
     <section class="main" id="s1">
         <div class="errorsMsg">
-            <%if(session.errors){%>
-            <%=console.log(session.errors);%>
-                <span><%=session.errors%></span>
+            <%if(errors.length){%>
+                <span><%=errors[0].Message%></span>
             <%}%>
         </div>
         <%- body %>
